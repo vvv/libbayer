@@ -36,7 +36,7 @@
 //! let cfa = bayer::CFA::RGGB;
 //! let alg = bayer::Demosaic::Linear;
 //!
-//! bayer::run_demosaic(&mut file, bayer::BayerDepth:Depth8, cfa, alg, &mut dst);
+//! bayer::demosaic(&mut file, bayer::BayerDepth:Depth8, cfa, alg, &mut dst);
 //! ```
 //!
 //! Note that many cameras will capture 12bits per pixel (channel), but
