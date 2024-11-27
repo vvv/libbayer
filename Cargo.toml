@@ -23,14 +23,11 @@ doc = true
 default = ["rayon"]
 
 [dependencies]
-byteorder = "1.4.3"
-libc = "0.2.138"
-rayon = { version = "1.6.1", optional = true }
-quick-error = "2"
+byteorder = "1.5"
+libc = "0.2"
+rayon = { version = "1.10", optional = true }
+quick-error = "2.0"
 
 [dev-dependencies]
-flic = "0.1.6"
-sdl2 = { version = "0.35.2", features = ["image"] }
-
-[badges]
-travis-ci = { repository = "virtualritz/libbayer" }
+flic = "0.1"
+sdl2 = { version = "0.37", features = ["image"] }
