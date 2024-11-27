@@ -116,8 +116,8 @@ macro_rules! apply_kernel_c {
             * 9;
 
         $row[3 * $i + c] = $curr[j];
-        $row[3 * $i + 1] = min(g_pos.saturating_sub(g_neg) / 256, $T::max_value() as u32) as $T;
-        $row[3 * $i + d] = min(d_pos.saturating_sub(d_neg) / 256, $T::max_value() as u32) as $T;
+        $row[3 * $i + 1] = min(g_pos.saturating_sub(g_neg) / 256, $T::MAX as u32) as $T;
+        $row[3 * $i + d] = min(d_pos.saturating_sub(d_neg) / 256, $T::MAX as u32) as $T;
     }};
 }
 
@@ -135,9 +135,9 @@ macro_rules! apply_kernel_g {
         let v_pos = ($prv1[j] as u32 + $nxt1[j] as u32) * 9;
         let v_neg = ($prv3[j] as u32 + $nxt3[j] as u32);
 
-        $row[3 * $i + h] = min(h_pos.saturating_sub(h_neg) / 16, $T::max_value() as u32) as $T;
+        $row[3 * $i + h] = min(h_pos.saturating_sub(h_neg) / 16, $T::MAX as u32) as $T;
         $row[3 * $i + 1] = $curr[j];
-        $row[3 * $i + v] = min(v_pos.saturating_sub(v_neg) / 16, $T::max_value() as u32) as $T;
+        $row[3 * $i + v] = min(v_pos.saturating_sub(v_neg) / 16, $T::MAX as u32) as $T;
     }};
 }
 

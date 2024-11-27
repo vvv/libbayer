@@ -89,7 +89,7 @@ where
 /// Before using this, allocate a [`CRasterMut`] for `dst` by calling
 /// [`bayerrs_raster_mut_alloc()`].
 ///
-/// This modifies the [`buf`] you passed in the aforementioned call.
+/// This modifies the `buf` you passed in the aforementioned call.
 #[no_mangle]
 pub extern "C" fn bayerrs_demosaic_none(
     src: *const c_uchar,

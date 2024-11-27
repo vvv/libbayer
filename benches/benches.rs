@@ -1,10 +1,13 @@
 //! Demosaicing algorithm benchmarks.
 
-#![cfg_attr(feature = "bench", feature(test))]
+#![feature(test)]
+#![allow(static_mut_refs)]
 
-#[cfg(all(feature = "bench", test))]
+extern crate test;
+
+#[cfg(test)]
 mod bench {
-    use self::bayer::*;
+    use bayer::*;
     use std::io::Cursor;
 
     const IMG_W: usize = 128;
@@ -19,7 +22,7 @@ mod bench {
     fn bench_none_u8(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth8, &mut BUF_U8) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U8[..]),
                 BayerDepth::Depth8,
                 CFA::RGGB,
@@ -33,7 +36,7 @@ mod bench {
     fn bench_none_u16(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth16, &mut BUF_U16) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U16[..]),
                 BayerDepth::Depth16LE,
                 CFA::RGGB,
@@ -47,7 +50,7 @@ mod bench {
     fn bench_nearest_neighbour_u8(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth8, &mut BUF_U8) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U8[..]),
                 BayerDepth::Depth8,
                 CFA::RGGB,
@@ -61,7 +64,7 @@ mod bench {
     fn bench_nearest_neighbour_u16(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth16, &mut BUF_U16) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U16[..]),
                 BayerDepth::Depth16LE,
                 CFA::RGGB,
@@ -75,7 +78,7 @@ mod bench {
     fn bench_linear_u8(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth8, &mut BUF_U8) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U8[..]),
                 BayerDepth::Depth8,
                 CFA::RGGB,
@@ -89,7 +92,7 @@ mod bench {
     fn bench_linear_u16(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth16, &mut BUF_U16) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U16[..]),
                 BayerDepth::Depth16LE,
                 CFA::RGGB,
@@ -103,7 +106,7 @@ mod bench {
     fn bench_cubic_u8(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth8, &mut BUF_U8) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U8[..]),
                 BayerDepth::Depth8,
                 CFA::RGGB,
@@ -117,7 +120,7 @@ mod bench {
     fn bench_cubic_u16(b: &mut test::Bencher) {
         let mut dst = unsafe { RasterMut::new(IMG_W, IMG_H, RasterDepth::Depth16, &mut BUF_U16) };
         b.iter(|| {
-            run_demosaic(
+            demosaic(
                 &mut Cursor::new(&SRC_U16[..]),
                 BayerDepth::Depth16LE,
                 CFA::RGGB,

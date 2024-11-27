@@ -55,7 +55,7 @@ fn main() {
     let mut buf = vec![0; bayer_w * bayer_h * bytes_per_pixel];
 
     read_file(
-        &Path::new(&files[0]),
+        Path::new(&files[0]),
         bayer_w,
         bayer_h,
         depth,
@@ -145,7 +145,7 @@ fn main() {
                     if idx == 0 {
                         idx = files.len() - 1;
                     } else {
-                        idx = idx - 1;
+                        idx -= 1;
                     }
                 }
 
@@ -175,7 +175,7 @@ fn main() {
                 }
 
                 read_file(
-                    &Path::new(&files[idx]),
+                    Path::new(&files[idx]),
                     bayer_w,
                     bayer_h,
                     depth,
@@ -206,7 +206,7 @@ fn usage() {
     println!();
 }
 
-fn parse_depth(s: &String) -> ImgDepth {
+fn parse_depth(s: &str) -> ImgDepth {
     let s = s.to_uppercase();
     if s == "8" {
         ImgDepth::Depth8
@@ -270,6 +270,7 @@ fn print_alg(alg: Demosaic) {
     println!("Demosaic: {}", s);
 }
 
+#[allow(clippy::too_many_arguments)]
 fn read_file(
     path: &Path,
     bayer_w: usize,
@@ -304,7 +305,7 @@ fn read_file(
         }
     }
 
-    render_to_texture(texture, bayer_w, bayer_h, depth, &buf);
+    render_to_texture(texture, bayer_w, bayer_h, depth, buf);
 }
 
 fn render_to_texture(
@@ -322,9 +323,8 @@ fn render_to_texture(
                         let src_offset = (3 * w) * y;
                         let dst_offset = pitch * y;
 
-                        for i in 0..3 * w {
-                            buffer[dst_offset + i] = buf[src_offset + i];
-                        }
+                        buffer[dst_offset..(3 * w + dst_offset)]
+                            .copy_from_slice(&buf[src_offset..(3 * w + src_offset)]);
                     }
                 })
                 .unwrap();
@@ -359,6 +359,6 @@ fn render_to_texture(
 
 fn present_to_screen(canvas: &mut sdl2::render::WindowCanvas, texture: &sdl2::render::Texture) {
     canvas.clear();
-    let _ = canvas.copy(&texture, None, None);
+    let _ = canvas.copy(texture, None, None);
     canvas.present();
 }
